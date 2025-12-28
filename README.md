@@ -165,11 +165,6 @@ Planned future steps:
 * Optimize OCR and credibility scoring
 
 ---
-Got it 👍
-Here is a **README-ready description section** you can paste **directly** into your `README.md`.
-It’s concise, honest, and properly credits everyone.
-
----
 
 ## 👥 Credits
 
