@@ -165,6 +165,19 @@ Planned future steps:
 * Optimize OCR and credibility scoring
 
 ---
+Got it 👍
+Here is a **README-ready description section** you can paste **directly** into your `README.md`.
+It’s concise, honest, and properly credits everyone.
+
+---
+
+## 👥 Credits
+
+* **Shivika Chaubey** — Project Lead & Concept Development
+* **Aditya Raj** — UI Design & Core Development
+* **Gaurvi Garg** — Research & Ideation
+
+---
 
 ## 🏁 Final Note
 
@@ -176,10 +189,3 @@ The focus is on:
 * Preventing misinformation spread
 
 ---
-
-* Rewrite this for **hackathon judges**
-* Add a **“What problem are we solving?”** section
-* Add a **future extension architecture** section
-* Simplify it further for beginners
-
-Just tell me 👍
