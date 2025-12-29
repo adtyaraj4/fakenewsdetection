@@ -1,6 +1,15 @@
-(() => {
-  if (window.__TRUTHLENS_ACTIVE__) return;
+// This script only runs when explicitly injected by sidepanel.js
+// It will NOT auto-execute on page load
+
+(function() {
+  // Prevent multiple injections on the SAME page load
+  if (window.__TRUTHLENS_ACTIVE__) {
+    console.log('TruthLens already active on this page');
+    return;
+  }
+  
   window.__TRUTHLENS_ACTIVE__ = true;
+  console.log('TruthLens content script activated');
 
   const hostname = window.location.hostname;
 
@@ -19,6 +28,10 @@
       chrome.runtime.sendMessage({
         action: "analyzeText",
         text: tweet.innerText
+      }, () => {
+        if (chrome.runtime.lastError) {
+          console.error('Twitter message error:', chrome.runtime.lastError);
+        }
       });
       window.__TRUTHLENS_ACTIVE__ = false;
       return;
@@ -62,6 +75,7 @@
         background: rgba(102, 126, 234, 0.15);
         left: ${startX}px;
         top: ${startY}px;
+        z-index: 1000000;
       `;
       overlay.appendChild(selectionBox);
 
@@ -79,7 +93,7 @@
       const rect = selectionBox.getBoundingClientRect();
       overlay.style.display = "none";
     
-      // FIX: Add error handling for the capture message
+      // Add error handling for the capture message
       chrome.runtime.sendMessage({ action: "capture" }, (dataUrl) => {
         // Check for runtime errors
         if (chrome.runtime.lastError) {
@@ -139,6 +153,7 @@
     });
 
     function onMouseMove(e) {
+      if (!selectionBox) return;
       selectionBox.style.width = Math.abs(e.clientX - startX) + "px";
       selectionBox.style.height = Math.abs(e.clientY - startY) + "px";
       selectionBox.style.left = Math.min(e.clientX, startX) + "px";
@@ -146,8 +161,12 @@
     }
 
     function cleanup() {
-      overlay.remove();
+      if (overlay && overlay.parentNode) {
+        overlay.remove();
+      }
+      // IMPORTANT: Reset the flag so it can be used again
       window.__TRUTHLENS_ACTIVE__ = false;
+      console.log('TruthLens cleanup complete, ready for next use');
     }
   }
 })();
