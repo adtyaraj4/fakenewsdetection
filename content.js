@@ -70,27 +70,40 @@
 
     overlay.addEventListener("mouseup", () => {
       overlay.removeEventListener("mousemove", onMouseMove);
+      
+      if (!selectionBox) {
+        cleanup();
+        return;
+      }
+      
       const rect = selectionBox.getBoundingClientRect();
-
       overlay.style.display = "none";
-
-      chrome.runtime.sendMessage({ action: "capture" }, async (dataUrl) => {
+    
+      // FIX: Add error handling for the capture message
+      chrome.runtime.sendMessage({ action: "capture" }, (dataUrl) => {
+        // Check for runtime errors
+        if (chrome.runtime.lastError) {
+          console.error('Capture error:', chrome.runtime.lastError);
+          cleanup();
+          return;
+        }
+        
         if (!dataUrl) {
           cleanup();
           return;
         }
-
+    
         const img = new Image();
         img.src = dataUrl;
-
+    
         img.onload = () => {
           const canvas = document.createElement("canvas");
           canvas.width = rect.width;
           canvas.height = rect.height;
-
+    
           const ctx = canvas.getContext("2d");
           const scale = window.devicePixelRatio || 1;
-
+    
           ctx.drawImage(
             img,
             rect.left * scale,
@@ -102,15 +115,24 @@
             rect.width,
             rect.height
           );
-
+    
           const croppedImage = canvas.toDataURL("image/png");
           
           // Send to sidepanel for processing
           chrome.runtime.sendMessage({
             action: "ocrImage",
             imageData: croppedImage
+          }, (response) => {
+            if (chrome.runtime.lastError) {
+              console.error('OCR message error:', chrome.runtime.lastError);
+            }
           });
           
+          cleanup();
+        };
+        
+        img.onerror = () => {
+          console.error('Image load error');
           cleanup();
         };
       });
