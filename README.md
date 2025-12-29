@@ -1,186 +1,221 @@
-# 🕵️‍♂️ Fake News Detection System (Work in Progress)
+# 🔍 TruthLens – AI-Powered Misinformation Detector (Chrome Extension)
 
-## 📌 Project Status
-
-🚧 **This project is currently under development.**
-Core components are implemented and tested individually, but **full end-to-end integration with the Instagram-like UI is still in progress**.
-
-The project demonstrates the **foundation** for an image-based fake news detection system and outlines a clear path toward future deployment as a browser extension.
+TruthLens is a **fully functional prototype Chrome/Edge extension** that helps users verify the credibility of news, posts, and images across the web.
+It combines **OCR (Optical Character Recognition)** with **AI-based analysis** to detect misinformation in real time.
 
 ---
 
-## 🎯 Project Idea
+## ✅ Project Status
 
-The aim of this project is to **detect fake or misleading news shared as images on social media** by:
+**✔ Prototype Complete**
 
-* Extracting text from images (OCR)
-* Analyzing the extracted text for credibility
-* Providing a verdict with confidence and explanation
+* Core features implemented
+* OCR + AI pipeline working
+* Twitter (X) auto-detection working
+* Image & manual text analysis supported
 
----
-
-## 🎨 User Interface (UI)
-
-* The UI file is **`file (4).html`**
-* It is a **replica of Instagram’s interface**
-* Users can:
-
-  * View posts
-  * Like posts
-  * Upload images (UI-level)
-
-⚠️ **Important clarification**
-At the current stage:
-
-* The UI **does NOT yet automatically verify posts**
-* The UI is a **visual prototype** to show where and how the system will be integrated
-* Fake news detection is currently tested **separately**, not directly inside the UI
+Future improvements may include deeper platform integration and mobile support.
 
 ---
 
-## 🧠 Current Functionality (What Works Now)
+## ✨ Key Features
 
-### ✅ Implemented
+### 🐦 Twitter / X Compatibility
 
-* OCR-based text extraction from images
-* AI-based credibility analysis of extracted text
-* Confidence score and explanation generation
-* Backend API using Flask
-* Standalone image verification via terminal
-
-### ❌ Not Yet Implemented
-
-* Automatic verification of posts inside the Instagram replica
-* Real-time UI overlays for verdicts
-* Browser extension functionality
-* Live integration with real social media platforms
+* Open any **tweet**
+* Click **“Scan Current Page”**
+* TruthLens automatically extracts the tweet text
+* AI analyzes it instantly — no manual copy needed
 
 ---
 
-## 📂 Project Structure
+### ✍️ Manual Text Check
+
+* Paste or type **any news or claim**
+* Get:
+
+  * **Verdict** (Real / Fake)
+  * **Confidence Score (0–100%)**
+  * **AI explanation**
+
+---
+
+### 🖼️ Image-Based Misinformation Detection
+
+* Upload **any image** containing text
+* Built-in OCR extracts the text automatically
+* Extracted text is analyzed for credibility
+
+---
+
+### 📸 Drag & Select (Any Website)
+
+* On **any non-Twitter page**:
+
+  * Click **Scan Current Page**
+  * Drag-select the image or text area
+* The selected content is captured, OCR-processed, and analyzed
+
+---
+
+### 📊 Confidence Score
+
+* Each result includes a **confidence percentage**
+* Helps users understand **how certain the AI is**
+
+---
+
+### 🎨 Clean Side Panel UI
+
+* Modern chat-style interface
+* Visual indicators for:
+
+  * REAL ✅
+  * FAKE ❌
+* Smooth animations and progress bars
+
+---
+
+## 🧠 How It Works (Pipeline)
+
+1. User selects text / image / tweet
+2. Image → OCR (OCR.space API)
+3. Extracted text → OpenAI API
+4. AI evaluates credibility
+5. Result displayed with:
+
+   * Verdict
+   * Confidence score
+   * Explanation
+
+---
+
+## 🗂️ Project Structure
 
 ```
-.
-├── app.py              # Flask backend API (OCR + AI)
-├── brain.py            # Credibility analysis logic
-├── ocr1.py             # OCR text extraction
-├── imagecheck.py       # Standalone image verification script
-├── file (4).html       # Instagram-like UI prototype
-├── new.png             # Sample image for testing
-├── .env                # OpenAI API key
+TruthLens/
+│
+├── manifest.json          # Extension configuration (Manifest V3)
+├── background.js          # OCR + AI logic
+├── content.js             # Drag-select & page capture
+│
+├── sidepanel.html         # UI layout
+├── sidepanel.css          # UI styling
+├── sidepanel.js           # UI logic
+│
+├── true.html              # Result page (REAL)
+├── false.html             # Result page (FAKE)
+├── result.js              # Result rendering logic
+├── styles.css             # Result page styles
+│
 └── README.md
 ```
 
 ---
 
-## 🧪 Testing Image Verification (Current Working Feature)
+## 🛠️ Technologies Used
 
-To test fake news detection **without the UI**:
+### Frontend
 
-### Steps:
+* HTML
+* CSS
+* JavaScript (Vanilla)
 
-1. Replace **`new.png`** with the image you want to analyze
-   (image should contain readable text)
-2. Open terminal in the project folder
-3. Run:
+### APIs & Services
+
+* **OCR.space API** (already integrated, no setup needed)
+* **OpenAI API** (user must add their own key)
+
+### Browser APIs
+
+* Chrome Extensions API (Manifest V3)
+* Side Panel API
+* Content Scripts
+* Storage API
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the Repository
 
 ```bash
-python imagecheck.py
-```
-
-### Output:
-
-* Extracted text
-* Verdict (Real / Fake)
-* Confidence score
-* Short explanation
-
-This is the **primary working verification method at present**.
-
----
-
-## 🌐 Running the Backend (For Development)
-
-```bash
-python app.py
-```
-
-Runs the Flask backend on:
-
-```
-http://127.0.0.1:5000
-```
-
-This backend is intended to be connected to the UI and future extensions.
-
----
-
-## 📦 Libraries & Dependencies
-
-### Python
-
-Install using pip:
-
-```bash
-pip install flask flask-cors pillow pytesseract python-dotenv openai
-```
-
-### System Requirement
-
-* **Tesseract OCR** (must be installed separately)
-
-Download:
-[https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
-
----
-
-## 🔑 Environment Setup
-
-Create a `.env` file:
-
-```
-OPENAI_API_KEY=your_api_key_here
+git clone https://github.com/adtyaraj4/fakenewsdetection.git
+cd fakenewsdetection
 ```
 
 ---
 
-## 🚀 Future Scope & Roadmap
+### 2️⃣ Add Your OpenAI API Key
 
-The **long-term goal** of this project is to evolve it into a **browser extension** that can:
+Open **`background.js`** and replace on line 116:
 
-* Work on platforms like:
+```js
+const apiKey = "YOUR_OPENAI_API_KEY";
+```
 
-  * Instagram
-  * Twitter (X)
-  * Facebook
-* Analyze posts **before or during viewing**
-* Warn users about potentially fake news
-* Provide explainable AI feedback instead of simple labels
+with your own **OpenAI API key**.
 
-Planned future steps:
+⚠️ **Important**
 
-* Integrate detection directly into the UI
-* Enable automatic scanning of feed images
-* Convert the project into a Chrome/Firefox extension
-* Optimize OCR and credibility scoring
+* Do NOT commit your API key to GitHub
+* The OCR API is already included and working
+
+---
+
+### 3️⃣ Load Extension in Chrome / Edge
+
+1. Open browser
+2. Go to `chrome://extensions` or `edge://extensions`
+3. Enable **Developer Mode**
+4. Click **Load Unpacked**
+5. Select the `TruthLens` folder
+
+---
+
+## 🧪 How to Use
+
+### 🔹 Twitter (X)
+
+1. Open a tweet
+2. Click the TruthLens extension
+3. Click **Scan Current Page**
+4. Tweet is analyzed automatically
+
+---
+
+### 🔹 Any Other Website
+
+1. Open the page
+2. Click **Scan Current Page**
+3. Drag-select text or image
+4. Release to analyze
+
+---
+
+### 🔹 Manual Input
+
+* Paste or type text directly
+* Or upload an image from your device
+
+---
+
+## 🚀 Limitations
+
+* Instagram **auto post detection** is not fully implemented yet
+* Mobile browser support is not available (Chrome extensions limitation)
 
 ---
 
 ## 👥 Credits
 
-* **Shivika Chaubey** — Project Lead & Concept Development
-* **Aditya Raj** — UI Design & Core Development
-* **Gaurvi Garg** — Research & Ideation
+* **Aditya Raj**
+* **Shivika Chaubey**
+* **Gaurvi Garg**
 
 ---
 
-## 🏁 Final Note
+## 📌 Disclaimer
 
-This project represents a **prototype and research foundation**, not a finished product.
-The focus is on:
-
-* Ethical AI usage
-* Explainability
-* Preventing misinformation spread
-
----
+TruthLens is an **assistive tool**, not a final authority.
+Always verify critical information from **trusted sources**.
