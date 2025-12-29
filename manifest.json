@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "TruthLens - Misinformation Detector",
+  "version": "3.0",
+  "permissions": ["activeTab", "scripting", "tabs", "storage", "sidePanel"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Open TruthLens"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["sidepanel.html", "sidepanel.css", "sidepanel.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruthLens</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🔍 TruthLens</h1>
+      <p class="subtitle">AI-Powered Misinformation Detector</p>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div class="chat-area" id="chat-area">
+      <div class="welcome-message">
+        <div class="welcome-icon">👋</div>
+        <h2>Welcome to TruthLens</h2>
+        <p>I'll help you verify if news and information is real or fake.</p>
+        <div class="quick-actions">
+          <button class="quick-action-btn" id="scan-page-btn">
+            📸 Scan Current Page
+          </button>
+          <button class="quick-action-btn" id="manual-input-btn">
+            ✏️ Manual Check
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-options" id="input-options">
+        <button class="input-option-btn active" id="text-option" title="Type text">
+          📝
+        </button>
+        <button class="input-option-btn" id="image-option" title="Upload image">
+          🖼️
+        </button>
+        <button class="input-option-btn" id="capture-option" title="Capture area">
+          📷
+        </button>
+      </div>
+      
+      <div class="input-container">
+        <textarea 
+          id="text-input" 
+          placeholder="Type or paste news text here..."
+          rows="3"
+        ></textarea>
+        <input type="file" id="file-input" accept="image/*" hidden />
+        <button id="send-btn" class="send-btn">
+          <span>Send</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load sidepanel script -->
+  <script src="sidepanel.js"></script>
+</body>
+</html>
